@@ -5,6 +5,7 @@ import { swaggerDocs } from './swagger.js';
 import productRoutes from './routes/productRoutes.js';
 import todoRoutes from './routes/todoRoutes.js';
 import categoryRoutes from './routes/categoryRoutes.js';    
+import userRoutes from './routes/userRoutes.js';
 
 
 dotenv.config();
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use('/api/products', productRoutes);
 app.use('/api/todos', todoRoutes);
 app.use('/api/categories', categoryRoutes);
+app.use('/api/users', userRoutes);
 
 // Swagger documentation
 swaggerDocs(app);
