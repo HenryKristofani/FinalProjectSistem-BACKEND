@@ -1,30 +1,24 @@
-import pool from '../config/db.js';
+import prisma from '../lib/prisma.js';
 
 export async function getAllProducts() {
-  const result = await pool.query('SELECT * FROM products ORDER BY id ASC');
-  return result.rows;
+  return await prisma.product.findMany({ orderBy: { id: 'asc' } });
 }
 
 export async function createProduct({ name, price, stock }) {
-  const result = await pool.query(
-    'INSERT INTO products (name, price, stock) VALUES ($1, $2, $3) RETURNING *',
-    [name, price, stock]
-  );
-  return result.rows[0];
+  return await prisma.product.create({
+    data: { name, price, stock }
+  });
 }
 
 export async function updateProduct(id, { name, price, stock }) {
-  const result = await pool.query(
-    'UPDATE products SET name = $1, price = $2, stock = $3 WHERE id = $4 RETURNING *',
-    [name, price, stock, id]
-  );
-  return result.rows[0];
+  return await prisma.product.update({
+    where: { id: Number(id) },
+    data: { name, price, stock }
+  });
 }
 
 export async function deleteProduct(id) {
-  const result = await pool.query(
-    'DELETE FROM products WHERE id = $1 RETURNING *',
-    [id]
-  );
-  return result.rows[0];
+  return await prisma.product.delete({
+    where: { id: Number(id) }
+  });
 }

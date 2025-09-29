@@ -1,0 +1,46 @@
+// Prisma schema for your project
+// Adjust datasource url in .env if needed
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         Int      @id @default(autoincrement())
+  username   String   @unique
+  password   String
+  created_at DateTime @default(now())
+  todos      Todo[]
+}
+
+model Category {
+  id         Int      @id @default(autoincrement())
+  name       String
+  created_at DateTime @default(now())
+  todos      Todo[]
+}
+
+model Todo {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?
+  status      String
+  created_at  DateTime @default(now())
+  user        User     @relation(fields: [user_id], references: [id])
+  user_id     Int
+  category    Category @relation(fields: [category_id], references: [id])
+  category_id Int
+}
+
+model Product {
+  id         Int      @id @default(autoincrement())
+  name       String
+  price      String
+  stock      Int
+  created_at DateTime @default(now())
+}
