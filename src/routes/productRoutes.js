@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { getProducts, createProduct, updateProduct, deleteProduct } from '../controllers/productController.js';
+import { protect } from '../middleware/authMiddleware.js';
 
 const router = Router();
 
@@ -38,8 +39,8 @@ const router = Router();
  *       400:
  *         description: name, price, stock are required
  */
-router.get('/', getProducts);
-router.post('/', createProduct);
+router.get('/', protect, getProducts);
+router.post('/', protect, createProduct);
 
 /**
  * @swagger
@@ -94,7 +95,7 @@ router.post('/', createProduct);
  *       404:
  *         description: Product not found
  */
-router.put('/:id', updateProduct);
-router.delete('/:id', deleteProduct);
+router.put('/:id', protect, updateProduct);
+router.delete('/:id', protect, deleteProduct);
 
 export default router;

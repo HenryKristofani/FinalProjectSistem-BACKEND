@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { getTodos, createTodo, updateTodo, deleteTodo } from '../controllers/todoController.js';
+import { protect } from '../middleware/authMiddleware.js';
 
 const router = Router();
 
@@ -44,8 +45,8 @@ const router = Router();
  *       400:
  *         description: title, status, user_id, category_id are required
  */
-router.get('/', getTodos);
-router.post('/', createTodo);
+router.get('/', protect, getTodos);
+router.post('/', protect, createTodo);
 
 /**
  * @swagger
@@ -106,7 +107,7 @@ router.post('/', createTodo);
  *       404:
  *         description: Todo not found
  */
-router.put('/:id', updateTodo);
-router.delete('/:id', deleteTodo);
+router.put('/:id', protect, updateTodo);
+router.delete('/:id', protect, deleteTodo);
 
 export default router;

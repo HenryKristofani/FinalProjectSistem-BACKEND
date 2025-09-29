@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { getUsers} from '../controllers/userController.js';
-
+import { protect } from '../middleware/authMiddleware.js';
 const router = Router();
 
 /**
@@ -13,6 +13,6 @@ const router = Router();
  *       200:
  *         description: List of users
  */
-router.get('/', getUsers);
+router.get('/', protect, getUsers);
 
 export default router;

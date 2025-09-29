@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { getCategories, createCategory, updateCategory, deleteCategory } from '../controllers/categoryController.js';
+import { protect } from '../middleware/authMiddleware.js';
 
 const router = Router();
 
@@ -32,8 +33,8 @@ const router = Router();
  *       400:
  *         description: Name is required
  */
-router.get('/', getCategories);
-router.post('/', createCategory);
+router.get('/', protect, getCategories);
+router.post('/', protect, createCategory);
 
 /**
  * @swagger
@@ -82,7 +83,7 @@ router.post('/', createCategory);
  *       404:
  *         description: Category not found
  */
-router.put('/:id', updateCategory);
-router.delete('/:id', deleteCategory);
+router.put('/:id', protect, updateCategory);
+router.delete('/:id', protect, deleteCategory);
 
 export default router;
