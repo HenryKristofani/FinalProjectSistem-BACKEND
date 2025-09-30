@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
-import { createUser, findUserByUsername, getAllUsers } from '../models/Users.js';
+import { createUser, findUserByUsername as findUserByEmail, getAllUsers } from '../models/Users.js';
 
 // Store blacklisted/invalidated tokens
 export const tokenBlacklist = new Set();
@@ -10,27 +10,27 @@ export const tokenBlacklist = new Set();
 // @access  Public
 export async function register(req, res) {
   try {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
     // Check if user exists
-    const userExists = await findUserByUsername(username);
+    const userExists = await findUserByEmail(email);
     if (userExists) {
-      return res.status(400).json({ message: 'Username already exists' });
+      return res.status(400).json({ message: 'Email already exists' });
     }
 
     // Create user
-    const user = await createUser(username, password);
+    const user = await createUser(email, password);
 
     // Create token
     const token = jwt.sign(
-      { id: user.id, username: user.username },
+      { id: user.id, email: user.email },
       process.env.JWT_SECRET,
       { expiresIn: '30d' }
     );
 
     res.status(201).json({
       id: user.id,
-      username: user.username,
+      email: user.email,
       token,
     });
   } catch (error) {
@@ -44,10 +44,10 @@ export async function register(req, res) {
 // @access  Public
 export async function login(req, res) {
   try {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
     // Check if user exists
-    const user = await findUserByUsername(username);
+    const user = await findUserByEmail(email);
     if (!user) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
@@ -60,14 +60,14 @@ export async function login(req, res) {
 
     // Create token
     const token = jwt.sign(
-      { id: user.id, username: user.username },
+      { id: user.id, email: user.email },
       process.env.JWT_SECRET,
       { expiresIn: '30d' }
     );
 
     res.json({
       id: user.id,
-      username: user.username,
+      email: user.email,
       token,
     });
   } catch (error) {

@@ -17,10 +17,10 @@ const router = Router();
  *           schema:
  *             type: object
  *             required:
- *               - username
+ *               - email
  *               - password
  *             properties:
- *               username:
+ *               email:
  *                 type: string
  *               password:
  *                 type: string
@@ -34,12 +34,12 @@ const router = Router();
  *               properties:
  *                 id:
  *                   type: integer
- *                 username:
+ *                 email:
  *                   type: string
  *                 token:
  *                   type: string
  *       400:
- *         description: Username already exists
+ *         description: Email already exists
  */
 router.post('/register', register);
 
@@ -56,10 +56,10 @@ router.post('/register', register);
  *           schema:
  *             type: object
  *             required:
- *               - username
+ *               - email
  *               - password
  *             properties:
- *               username:
+ *               email:
  *                 type: string
  *               password:
  *                 type: string
@@ -73,7 +73,7 @@ router.post('/register', register);
  *               properties:
  *                 id:
  *                   type: integer
- *                 username:
+ *                 email:
  *                   type: string
  *                 token:
  *                   type: string
@@ -100,7 +100,7 @@ router.post('/login', login);
  *                 properties:
  *                   id:
  *                     type: integer
- *                   username:
+ *                   email:
  *                     type: string
  *                   created_at:
  *                     type: string
@@ -126,7 +126,7 @@ router.post('/login', login);
  *                 properties:
  *                   id:
  *                     type: integer
- *                   username:
+ *                   email:
  *                     type: string
  *                   created_at:
  *                     type: string
